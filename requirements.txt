@@ -7,3 +7,4 @@ textract
 sentence-transformers
 joblib
 streamlit
+ipykernel

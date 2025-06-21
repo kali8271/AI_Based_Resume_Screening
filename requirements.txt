@@ -1,0 +1,9 @@
+nltk
+scikit-learn
+pandas
+matplotlib
+seaborn
+textract
+sentence-transformers
+joblib
+streamlit

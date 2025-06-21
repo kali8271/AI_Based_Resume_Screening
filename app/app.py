@@ -63,21 +63,20 @@ if uploaded_file:
     with st.spinner("Processing Resume..."):
         resume_text = extract_text_from_file(uploaded_file)
 
-        if resume_text:
-            clean_text = preprocess_text(resume_text)
-            embedding = bert_encoder.encode([clean_text])
-            prediction = model.predict(embedding)
-            predicted_label = label_encoder.inverse_transform(prediction)[0]
-            extracted_skills = extract_skills(clean_text)
+if not resume_text.strip():
+    st.warning("⚠️ No text found in the uploaded file.")
+    st.stop()
+else:
+    st.info("✅ Text successfully extracted from resume.")
 
-            st.success(f"🎯 **Predicted Job Category:** {predicted_label}")
+    # Debug: Show raw text
+    with st.expander("📄 Raw Resume Text (Before Preprocessing)"):
+        st.write(resume_text)
 
-            if extracted_skills:
-                st.info("💼 **Skills Detected:** " + ", ".join(extracted_skills))
-            else:
-                st.warning("No major skills detected from our list.")
+    clean_text = preprocess_text(resume_text)
 
-            with st.expander("📄 Show Processed Resume Text"):
-                st.write(clean_text)
-        else:
-            st.warning("⚠️ Unable to extract text from the uploaded resume.")
+    if not clean_text.strip():
+        st.warning("⚠️ Preprocessing removed all content.")
+    else:
+        with st.expander("📄 Show Processed Resume Text"):
+            st.write(clean_text)
